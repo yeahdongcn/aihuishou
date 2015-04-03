@@ -16,15 +16,15 @@ int main(int argc, char *argv[]) {
         NSMutableString *log = [NSMutableString new];
         for (int cid = 1; cid < 40; cid++) {
             for (int i = 1; i < 90; i++) {
-                NSData  *data      = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aihuishou.com/product/search?cid=%d&bid=0&keyword=&pageIndex=%d", cid, i]]];
+                NSData  *data     = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aihuishou.com/product/search?cid=%d&bid=0&keyword=&pageIndex=%d", cid, i]]];
                 
-                TFHpple *doc       = [[TFHpple alloc] initWithHTMLData:data];
-                NSArray *elements  = [doc searchWithXPathQuery:@"//ul[@class='products']/li/a"];
+                TFHpple *doc      = [[TFHpple alloc] initWithHTMLData:data];
+                NSArray *elements = [doc searchWithXPathQuery:@"//ul[@class='products']/li/a"];
                 for (int j = 0; j < [elements count]; j++) {
                     TFHppleElement *e = [elements objectAtIndex:j];
                     NSString *href    = [e objectForKey:@"href"];
                     NSString *pid     = [href stringByReplacingOccurrencesOfString:@"/product/" withString:@""];
-                    pid                = [pid stringByReplacingOccurrencesOfString:@".html" withString:@""];
+                    pid               = [pid stringByReplacingOccurrencesOfString:@".html" withString:@""];
                     [log appendFormat:@"%@;", pid];
                     NSString *image = @"";
                     NSString *name  = @"";
@@ -46,8 +46,8 @@ int main(int argc, char *argv[]) {
                     }
                     UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
                     if (img) {
-                        NSData *raw = UIImageJPEGRepresentation(img, 1.0);
-                        NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+                        NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
+                        NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
                         NSString *docFilePath = [doc stringByAppendingPathComponent:name];
                         [raw writeToFile:docFilePath atomically:YES];
                     }
@@ -58,8 +58,8 @@ int main(int argc, char *argv[]) {
                     
                     NSMutableArray *sections = [NSMutableArray arrayWithCapacity:[selements count]];
                     for (int j = 0; j < [selements count]; j++) {
-                        TFHppleElement *s        = [selements objectAtIndex:j];
-                        NSArray *pelements = [s searchWithXPathQuery:@"//ul/li"];
+                        TFHppleElement *s    = [selements objectAtIndex:j];
+                        NSArray *pelements   = [s searchWithXPathQuery:@"//ul/li"];
                         NSMutableArray *rows = [NSMutableArray arrayWithCapacity:[pelements count]];
                         for (int k = 0; k < [pelements count]; k++) {
                             TFHppleElement *p    = [pelements objectAtIndex:k];
@@ -136,10 +136,10 @@ int main(int argc, char *argv[]) {
                                                                   returningResponse:&response
                                                                               error:&error];
                             if (!error) {
-                                TFHpple *priceDoc  = [[TFHpple alloc] initWithHTMLData:price];
+                                TFHpple *priceDoc      = [[TFHpple alloc] initWithHTMLData:price];
                                 NSArray *priceElements = [priceDoc searchWithXPathQuery:@"//ul[@id='quoter_list']/li/div/span"];
                                 for (int m = 0; m < [priceElements count]; m++) {
-                                    TFHppleElement *price    = [priceElements objectAtIndex:m];
+                                    TFHppleElement *price = [priceElements objectAtIndex:m];
                                     if (![prices containsObject:[price text]]) {
                                         [prices addObject:[price text]];
                                     }
