@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TFHpple.h"
 #import "AFNetworking.h"
+#import "Base64.h"
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {
@@ -26,29 +27,32 @@ int main(int argc, char *argv[]) {
                     NSString *pid     = [href stringByReplacingOccurrencesOfString:@"/product/" withString:@""];
                     pid               = [pid stringByReplacingOccurrencesOfString:@".html" withString:@""];
                     [log appendFormat:@"%@;", pid];
-                    NSString *image = @"";
-                    NSString *name  = @"";
+                    NSString *image      = @"";
+                    NSString *name       = @"";
+                    NSString *base64name = @"";
                     for (TFHppleElement *t in e.children) {
                         if ([[t tagName] isEqualToString:@"img"]) {
                             image = [t objectForKey:@"src"];
                             [log appendFormat:@"%@;", image];
                         } else if ([[t tagName] isEqualToString:@"div"]) {
                             name = [t text];
+                            base64name = [name base64EncodedString];
                             [log appendFormat:@"%@;", name];
+                            [log appendFormat:@"%@;", base64name];
                         }
                     }
                     
                     if ([image length] > 0) {
                         image = [image stringByReplacingOccurrencesOfString:@"&w=150" withString:@""];
                     }
-                    if ([name length] > 0) {
-                        name = [name stringByAppendingString:@".jpg"];
+                    if ([base64name length] > 0) {
+                        base64name = [base64name stringByAppendingString:@".jpg"];
                     }
                     UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
                     if (img) {
                         NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
                         NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-                        NSString *docFilePath = [doc stringByAppendingPathComponent:name];
+                        NSString *docFilePath = [doc stringByAppendingPathComponent:base64name];
                         [raw writeToFile:docFilePath atomically:YES];
                     }
                     
