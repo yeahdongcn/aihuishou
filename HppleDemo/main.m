@@ -48,79 +48,94 @@ int main(int argc, char *argv[]) {
                     if ([base64name length] > 0) {
                         base64name = [base64name stringByAppendingString:@".jpg"];
                     }
-                    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
-                    if (img) {
-                        NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
-                        NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-                        NSString *docFilePath = [doc stringByAppendingPathComponent:base64name];
-                        [raw writeToFile:docFilePath atomically:YES];
-                    }
+                    // Download image for each device
+//                    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
+//                    if (img) {
+//                        NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
+//                        NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//                        NSString *docFilePath = [doc stringByAppendingPathComponent:base64name];
+//                        [raw writeToFile:docFilePath atomically:YES];
+//                    }
                     
-                    NSData  *sdata     = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aihuishou.com%@", href]]];
-                    TFHpple *sdoc      = [[TFHpple alloc] initWithHTMLData:sdata];
-                    NSArray *selements = [sdoc searchWithXPathQuery:@"//div[@id='ahs_property_body']/div/dl/dd"];
+                    // Get possible configurations
+//                    NSData  *sdata     = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://aihuishou.com%@", href]]];
+//                    TFHpple *sdoc      = [[TFHpple alloc] initWithHTMLData:sdata];
+//                    NSArray *selements = [sdoc searchWithXPathQuery:@"//div[@id='ahs_property_body']/div/dl/dd"];
+//                    
+//                    NSMutableArray *sections = [NSMutableArray arrayWithCapacity:[selements count]];
+//                    for (int j = 0; j < [selements count]; j++) {
+//                        TFHppleElement *s    = [selements objectAtIndex:j];
+//                        NSArray *pelements   = [s searchWithXPathQuery:@"//ul/li"];
+//                        NSMutableArray *rows = [NSMutableArray arrayWithCapacity:[pelements count]];
+//                        for (int k = 0; k < [pelements count]; k++) {
+//                            TFHppleElement *p    = [pelements objectAtIndex:k];
+//                            NSString *_selected_ = [p objectForKey:@"data-id"];
+//                            NSString *_default_  = [p objectForKey:@"data-default"];
+//                            if (_default_) {
+//                                [rows addObject:@[_selected_, _default_]];
+//                            } else {
+//                                [rows addObject:_selected_];
+//                            }
+//                        }
+//                        [sections addObject:rows];
+//                    }
+//                    
+//                    int loop = 1;
+//                    NSMutableArray  *loopArray = [NSMutableArray new];
+//                    NSMutableString *_default_ = [NSMutableString new];
+//                    for (int a = 0; a < [sections count]; a++) {
+//                        NSArray *rows = sections[a];
+//                        if ([[rows firstObject] isKindOfClass:[NSString class]]) {
+//                            NSMutableArray *cloopArray = [NSMutableArray new];;
+//                            for (int b = 0; b < [rows count]; b++) {
+//                                NSString *row = rows[b];
+//                                if (a == 0) {
+//                                    NSMutableArray *subArray = [NSMutableArray new];
+//                                    [subArray addObject:row];
+//                                    [loopArray addObject:subArray];
+//                                } else {
+//                                    for (NSMutableArray *subArray in loopArray) {
+//                                        NSMutableArray  *csubArray = [subArray mutableCopy];
+//                                        [csubArray addObject:row];
+//                                        [cloopArray addObject:csubArray];
+//                                    }
+//                                }
+//                            }
+//                            if ([cloopArray count] > 0) {
+//                                loopArray = cloopArray;
+//                            }
+//                            loop *= [rows count];
+//                        } else {
+//                            for (int b = 0; b < [rows count]; b++) {
+//                                if ([rows[b] count] > 1) {
+//                                    [_default_ appendFormat:@"%@;", rows[b][1]];
+//                                }
+//                            }
+//                        }
+//                    }
+//                    
+//                    for (NSArray *subArray in loopArray) {
+//                        loop--;
+//                        NSMutableString *units = [NSMutableString new];
+//                        for (NSString *unit in subArray) {
+//                            [units appendFormat:@"%@;", unit];
+//                        }
+//                        [units appendString:_default_];
+//                        [units deleteCharactersInRange:NSMakeRange([units length] - 1, 1)];
                     
-                    NSMutableArray *sections = [NSMutableArray arrayWithCapacity:[selements count]];
-                    for (int j = 0; j < [selements count]; j++) {
-                        TFHppleElement *s    = [selements objectAtIndex:j];
-                        NSArray *pelements   = [s searchWithXPathQuery:@"//ul/li"];
-                        NSMutableArray *rows = [NSMutableArray arrayWithCapacity:[pelements count]];
-                        for (int k = 0; k < [pelements count]; k++) {
-                            TFHppleElement *p    = [pelements objectAtIndex:k];
-                            NSString *_selected_ = [p objectForKey:@"data-id"];
-                            NSString *_default_  = [p objectForKey:@"data-default"];
-                            if (_default_) {
-                                [rows addObject:@[_selected_, _default_]];
-                            } else {
-                                [rows addObject:_selected_];
-                            }
-                        }
-                        [sections addObject:rows];
-                    }
-                    
-                    int loop = 1;
-                    NSMutableArray  *loopArray = [NSMutableArray new];
-                    NSMutableString *_default_ = [NSMutableString new];
-                    for (int a = 0; a < [sections count]; a++) {
-                        NSArray *rows = sections[a];
-                        if ([[rows firstObject] isKindOfClass:[NSString class]]) {
-                            NSMutableArray *cloopArray = [NSMutableArray new];;
-                            for (int b = 0; b < [rows count]; b++) {
-                                NSString *row = rows[b];
-                                if (a == 0) {
-                                    NSMutableArray *subArray = [NSMutableArray new];
-                                    [subArray addObject:row];
-                                    [loopArray addObject:subArray];
-                                } else {
-                                    for (NSMutableArray *subArray in loopArray) {
-                                        NSMutableArray  *csubArray = [subArray mutableCopy];
-                                        [csubArray addObject:row];
-                                        [cloopArray addObject:csubArray];
-                                    }
-                                }
-                            }
-                            if ([cloopArray count] > 0) {
-                                loopArray = cloopArray;
-                            }
-                            loop *= [rows count];
-                        } else {
-                            for (int b = 0; b < [rows count]; b++) {
-                                if ([rows[b] count] > 1) {
-                                    [_default_ appendFormat:@"%@;", rows[b][1]];
-                                }
-                            }
-                        }
-                    }
-                    
-                    NSMutableArray *prices = [NSMutableArray new];
-                    for (NSArray *subArray in loopArray) {
-                        loop--;
-                        NSMutableString *units = [NSMutableString new];
-                        for (NSString *unit in subArray) {
-                            [units appendFormat:@"%@;", unit];
-                        }
-                        [units appendString:_default_];
-                        [units deleteCharactersInRange:NSMakeRange([units length] - 1, 1)];
+                    // Use hard code configurations
+                    NSArray *loopArray = @[
+                                           @"2014;2024;2026;2045;2067;2072;2098;2100;2102;2104;2106;2108;2112;2114;2118;2124;2129;2134;2452;2465;2476",
+                                           @"2014;2021;2026;2045;2067;2075;2098;2100;2102;2104;2106;2108;2112;2114;2120;2127;2129;2134;2452;2466;2476",
+                                           @"2015;2021;2026;2047;2067;2075;2098;2100;2102;2104;2107;2108;2112;2114;2120;2128;2129;2134;2454;2466;2476",
+                                           @"2019;2021;2027;2047;2071;2075;2099;2101;2103;2105;2107;2109;2113;2117;2122;2128;2130;2135;2453;2465;2477",
+                                           ];
+// Old
+//                    NSMutableArray *prices = [NSMutableArray new];
+// New
+                    for (NSString *units in loopArray) {
+                        NSMutableArray *prices = [NSMutableArray new];
+// End new
                         NSDictionary *parameters = @{@"AuctionProductId": pid,
                                                      @"ProductModelId": @"",
                                                      @"PriceUnits": units,
@@ -150,10 +165,20 @@ int main(int argc, char *argv[]) {
                                 }
                             }
                         }
+                        
+// New
+                        double total = 0;
+                        for (NSString *price in prices) {
+                            total += [price doubleValue];
+                        }
+                        double average = total / [prices count];
+                        [log appendFormat:@"%.2f;", average];
+// End New
                     }
-                    for (NSString *price in prices) {
-                        [log appendFormat:@"%@;", price];
-                    }
+// Old
+//                    for (NSString *price in prices) {
+//                        [log appendFormat:@"%@;", price];
+//                    }
                     [log deleteCharactersInRange:NSMakeRange([log length] - 1, 1)];
                     [log appendString:@"\n"];
                 }
