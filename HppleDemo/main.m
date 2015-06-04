@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
         NSMutableDictionary *dict = [NSMutableDictionary new];
         
         NSArray *brands = @[@"134", @"112", @"114", @"108", @"15", @"124", @"126", @"118", @"128", @"22", @"109", @"110", @"111", @"113", @"120", @"123", @"125", @"127", @"791"];
-        for (int brand = 1; brand < [brands count]; brand++) {
+        for (int brand = 0; brand < [brands count]; brand++) {
             for (int page = 1; page < 50; page++) {
                 NSData  *data     = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.lehuiso.com/products/products_%@_%d.html", brands[brand], page]]];
                 
