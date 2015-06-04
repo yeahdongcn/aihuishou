@@ -11,11 +11,31 @@
 #import "AFNetworking.h"
 #import "Base64.h"
 
+BOOL contains(NSArray *array, NSString *key) {
+    for (NSMutableDictionary *dict in array) {
+        if ([[dict.allKeys firstObject] isEqualToString:key]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+NSMutableDictionary *dd(NSArray *array, NSString *key) {
+    for (NSMutableDictionary *dict in array) {
+        if ([[dict.allKeys firstObject] isEqualToString:key]) {
+            return dict;
+        }
+    }
+    return nil;
+}
+
 int main(int argc, char *argv[]) {
     @autoreleasepool {
         NSLog(@"\n\n\n");
         
         NSMutableString *log = [NSMutableString new];
+        
+        NSMutableDictionary *dict = [NSMutableDictionary new];
         
         NSArray *brands = @[@"134", @"112", @"114", @"108", @"15", @"124", @"126", @"118", @"128", @"22", @"109", @"110", @"111", @"113", @"120", @"123", @"125", @"127", @"791"];
         for (int brand = 1; brand < [brands count]; brand++) {
@@ -33,13 +53,52 @@ int main(int argc, char *argv[]) {
                         NSData  *sdata     = [NSData dataWithContentsOfURL:[NSURL URLWithString:href]];
                         TFHpple *sdoc      = [[TFHpple alloc] initWithHTMLData:sdata];
                         
+                        NSArray *selements = [sdoc searchWithXPathQuery:@"//div[@id='right_main']/form/dl"];
+                        if ([selements count] > 0) {
+                            for (int i = 0; i < [selements count]; i++) {
+                                TFHppleElement *ee = [selements objectAtIndex:i];
+                                NSString *key = nil;
+                                NSMutableArray *array = nil;
+                                NSMutableDictionary *sdict = nil;
+                                for (TFHppleElement *eee in ee.children) {
+                                    if ([eee.tagName isEqualToString:@"dt"]) {
+                                        key = [[[eee text] componentsSeparatedByString:@"."] lastObject];
+                                        array = dict[key];
+                                    } else if ([eee.tagName isEqualToString:@"dd"] && [[eee attributes][@"class"]length] == 0) {
+                                        if (!array) {
+                                            array = [NSMutableArray new];
+                                        }
+                                        
+                                        NSString *ratio = [(TFHppleElement *)[[eee children] firstObject] attributes][@"ratio"];
+                                        if (ratio == nil) {
+                                            ratio = @"0";
+                                        }
+                                        if ([ratio length] == 0) {
+                                            ratio = @"0";
+                                        }
+                                        if (!contains(array, [eee text])) {
+                                            NSMutableArray *a = [@[ratio] mutableCopy];
+                                            sdict = [@{[eee text]: a} mutableCopy];
+                                            [array addObject:sdict];
+                                        } else {
+                                            sdict = dd(array, [eee text]);
+                                            if (![sdict[[eee text]] containsObject:ratio]) {
+                                                [sdict[[eee text]] addObject:ratio];
+                                            }
+                                        }
+                                    }
+                                }
+                                dict[key] = array;
+                            }
+                        }
+                        
                         // Sid
                         NSString *goodsid = [[[href lastPathComponent] stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"goods_" withString:@""];
                         NSLog(@"%@", goodsid);
                         [log appendString:[NSString stringWithFormat:@"%@;", goodsid]];
                         
                         // Name
-                        NSArray *selements = [sdoc searchWithXPathQuery:@"//div[@id='pname']/dl/dd"];
+                        selements = [sdoc searchWithXPathQuery:@"//div[@id='pname']/dl/dd"];
                         e = [selements firstObject];
                         NSString *name = [[e text] stringByReplacingOccurrencesOfString:@"产品型号：" withString:@""];
                         NSLog(@"%@", name);
