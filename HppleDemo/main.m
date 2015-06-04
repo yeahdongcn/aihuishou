@@ -79,6 +79,21 @@ int main(int argc, char *argv[]) {
                             }
                         }
                         [log appendString:@"\n"];
+                        
+                        // Image
+                        selements = [sdoc searchWithXPathQuery:@"//div[@id='goods_left']/dl/dd/img"];
+                        if ([selements count] > 0) {
+                            TFHppleElement *e = [selements firstObject];
+                            NSString *image = [e attributes][@"src"];
+                            image = [NSString stringWithFormat:@"%@%@", @"http://www.lehuiso.com", [image stringByReplacingOccurrencesOfString:@".." withString:@""]];
+                            UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
+                            if (img) {
+                                NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
+                                NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+                                NSString *docFilePath = [doc stringByAppendingPathComponent:goodsid];
+                                [raw writeToFile:docFilePath atomically:YES];
+                            }
+                        }
                     }
                 }
             }
