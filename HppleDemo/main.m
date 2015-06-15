@@ -119,12 +119,12 @@ int main(int argc, char *argv[]) {
                                                                                      options:NSJSONReadingAllowFragments
                                                                                        error:nil];
                                 NSLog(@"%@", dict[@"productprice"]);
-                                NSLog(@"sz %@", dict[@"sz_productprice"]);
-                                NSLog(@"h %@", dict[@"h_productprice"]);
+                                NSLog(@"%@", dict[@"sz_productprice"]);
+                                NSLog(@"%@", dict[@"h_productprice"]);
                                 
                                 [log appendString:[NSString stringWithFormat:@"%@;", dict[@"productprice"]]];
-                                [log appendString:[NSString stringWithFormat:@"sz %@;", dict[@"sz_productprice"]]];
-                                [log appendString:[NSString stringWithFormat:@"h %@;", dict[@"h_productprice"]]];
+                                [log appendString:[NSString stringWithFormat:@"%@;", dict[@"sz_productprice"]]];
+                                [log appendString:[NSString stringWithFormat:@"%@;", dict[@"h_productprice"]]];
                             }
                         }
                         
@@ -137,6 +137,7 @@ int main(int argc, char *argv[]) {
                                 [log appendString:[NSString stringWithFormat:@"%@;", ratio]];
                             }
                         }
+                        
                         [log appendString:@"\n"];
                         
                         // Image
@@ -150,6 +151,7 @@ int main(int argc, char *argv[]) {
                                 NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
                                 NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
                                 NSString *docFilePath = [doc stringByAppendingPathComponent:goodsid];
+                                docFilePath = [docFilePath stringByAppendingString:@".jpg"];
                                 [raw writeToFile:docFilePath atomically:YES];
                             }
                         }
