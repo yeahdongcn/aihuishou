@@ -128,33 +128,33 @@ int main(int argc, char *argv[]) {
                             }
                         }
                         
-                        // Ratio
-                        selements = [sdoc searchWithXPathQuery:@"//dl[@name='dlchoses']/dd/input"];
-                        if ([selements count] > 0) {
-                            for (int i = 0; i < [selements count]; i++) {
-                                TFHppleElement *e = [selements objectAtIndex:i];
-                                NSString *ratio = [e attributes][@"ratio"];
-                                [log appendString:[NSString stringWithFormat:@"%@;", ratio]];
-                            }
-                        }
+//                        // Ratio
+//                        selements = [sdoc searchWithXPathQuery:@"//dl[@name='dlchoses']/dd/input"];
+//                        if ([selements count] > 0) {
+//                            for (int i = 0; i < [selements count]; i++) {
+//                                TFHppleElement *e = [selements objectAtIndex:i];
+//                                NSString *ratio = [e attributes][@"ratio"];
+//                                [log appendString:[NSString stringWithFormat:@"%@;", ratio]];
+//                            }
+//                        }
                         
                         [log appendString:@"\n"];
                         
-                        // Image
-                        selements = [sdoc searchWithXPathQuery:@"//div[@id='goods_left']/dl/dd/img"];
-                        if ([selements count] > 0) {
-                            TFHppleElement *e = [selements firstObject];
-                            NSString *image = [e attributes][@"src"];
-                            image = [NSString stringWithFormat:@"%@%@", @"http://www.lehuiso.com", [image stringByReplacingOccurrencesOfString:@".." withString:@""]];
-                            UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
-                            if (img) {
-                                NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
-                                NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-                                NSString *docFilePath = [doc stringByAppendingPathComponent:goodsid];
-                                docFilePath = [docFilePath stringByAppendingString:@".jpg"];
-                                [raw writeToFile:docFilePath atomically:YES];
-                            }
-                        }
+//                        // Image
+//                        selements = [sdoc searchWithXPathQuery:@"//div[@id='goods_left']/dl/dd/img"];
+//                        if ([selements count] > 0) {
+//                            TFHppleElement *e = [selements firstObject];
+//                            NSString *image = [e attributes][@"src"];
+//                            image = [NSString stringWithFormat:@"%@%@", @"http://www.lehuiso.com", [image stringByReplacingOccurrencesOfString:@".." withString:@""]];
+//                            UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:image]]];
+//                            if (img) {
+//                                NSData *raw           = UIImageJPEGRepresentation(img, 1.0);
+//                                NSString *doc         = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//                                NSString *docFilePath = [doc stringByAppendingPathComponent:goodsid];
+//                                docFilePath = [docFilePath stringByAppendingString:@".jpg"];
+//                                [raw writeToFile:docFilePath atomically:YES];
+//                            }
+//                        }
                     }
                 }
             }
