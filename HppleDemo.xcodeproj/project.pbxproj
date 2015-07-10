@@ -11,6 +11,7 @@
 		AD210CE81A249B34007EB02E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AD210CE71A249B34007EB02E /* main.m */; };
 		AD210CF31A249B34007EB02E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD210CF21A249B34007EB02E /* Images.xcassets */; };
 		AD210D161A249C4A007EB02E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AD210D151A249C4A007EB02E /* libxml2.dylib */; };
+		D0066A9E1B4E773A00F9F6F3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0066A9D1B4E773A00F9F6F3 /* AppDelegate.m */; };
 		D00D028A1ACA741F00386C71 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D00D02841ACA741F00386C71 /* XPathQuery.m */; };
 		D00D028B1ACA741F00386C71 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = D00D02861ACA741F00386C71 /* TFHpple.m */; };
 		D00D028C1ACA741F00386C71 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = D00D02881ACA741F00386C71 /* TFHppleElement.m */; };
@@ -24,6 +25,8 @@
 		AD210CE71A249B34007EB02E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AD210CF21A249B34007EB02E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AD210D151A249C4A007EB02E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		D0066A9C1B4E773A00F9F6F3 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D0066A9D1B4E773A00F9F6F3 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D00D02841ACA741F00386C71 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		D00D02851ACA741F00386C71 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		D00D02861ACA741F00386C71 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
@@ -79,6 +82,8 @@
 			children = (
 				AD210CF21A249B34007EB02E /* Images.xcassets */,
 				AD210CE51A249B34007EB02E /* Supporting Files */,
+				D0066A9C1B4E773A00F9F6F3 /* AppDelegate.h */,
+				D0066A9D1B4E773A00F9F6F3 /* AppDelegate.m */,
 			);
 			path = HppleDemo;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 				D00D028A1ACA741F00386C71 /* XPathQuery.m in Sources */,
 				D00D028B1ACA741F00386C71 /* TFHpple.m in Sources */,
 				AD210CE81A249B34007EB02E /* main.m in Sources */,
+				D0066A9E1B4E773A00F9F6F3 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
