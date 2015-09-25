@@ -90,6 +90,8 @@
         }
     });
     self.window = [UIWindow new];
+    UIViewController *vc = [UIViewController new];
+    self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
     return YES;
 }
