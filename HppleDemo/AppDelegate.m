@@ -26,8 +26,12 @@
         for (int page = 1; page < 40; page++) {
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
             manager.responseSerializer = [AFHTTPResponseSerializer new];
+            [manager.requestSerializer setValue:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36" forHTTPHeaderField:@"User-Agent"];
+            [manager.requestSerializer setValue:@"1" forHTTPHeaderField:@"Upgrade-Insecure-Requests"];
+            [manager.requestSerializer setValue:@"www.yifone.com" forHTTPHeaderField:@"Host"];
+            [manager.requestSerializer setValue:@"c=%5B%7B%22LoadTime%22%3A16%2C%22imgUrl%22%3A%22%22%2C%22linkUrl%22%3A%22http%3A%2F%2Fwww.yifone.com%2FProduct%2FProductDetail%3Fpkid%3D2856%22%2C%22title%22%3A%22%20iPhone6%20plus%22%7D%2C%7B%22LoadTime%22%3A16%2C%22imgUrl%22%3A%22%22%2C%22linkUrl%22%3A%22http%3A%2F%2Fwww.yifone.com%2FProduct%2FProductDetail%3Fpkid%3D1419%22%2C%22title%22%3A%22iphone5s%22%7D%2C%7B%22LoadTime%22%3A16%2C%22imgUrl%22%3A%22%22%2C%22linkUrl%22%3A%22http%3A%2F%2Fwww.yifone.com%2FProduct%2FProductDetail%3Fpkid%3D1428%22%2C%22title%22%3A%22%E4%B8%89%E6%98%9Fnote3%22%7D%2C%7B%22LoadTime%22%3A16%2C%22imgUrl%22%3A%22%22%2C%22linkUrl%22%3A%22http%3A%2F%2Fwww.yifone.com%2FProduct%2FProductDetail%3Fpkid%3D1214%22%2C%22title%22%3A%22%E4%B8%89%E6%98%9Fnote2%22%7D%5D; Hm_lvt_49618d01fe259a7c123bdb2ffe484297=1447655166,1450227883,1450229132; Hm_lpvt_49618d01fe259a7c123bdb2ffe484297=1450229147" forHTTPHeaderField:@"Cookie"];
             NSString *URL = [NSString stringWithFormat:@"http://www.yifone.com/Product/Search?pageindex=%d&fid=93&typeid=%d", page, type];
-            [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 TFHpple *doc      = [[TFHpple alloc] initWithHTMLData:responseObject];
                 NSArray *elements = [doc searchWithXPathQuery:@"//div[@id='body']/section[3]/section[2]/ul[2]/li/a"];
                 for (int i = 0; i < [elements count]; i++) {
@@ -67,14 +71,15 @@
                         if (j == 0) {
                             int a = 0;
                             a++;
+                            NSLog(@"%@", log);
                         }
                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                         j--;
                         if (j == 0) {
                             int a = 0;
                             a++;
+                            NSLog(@"%@", log);
                         }
-                        NSLog(@"Error: %@", error);
                     }];
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
